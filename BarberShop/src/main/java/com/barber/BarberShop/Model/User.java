@@ -1,5 +1,6 @@
 package com.barber.BarberShop.Model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -10,13 +11,15 @@ public class User {
 
     @Id
     private UUID id;
-
+    @Column(unique = true)
     private String username;
     private String password;
+    @Column(unique = true)
     private String email;
     private String name;
     private String surname;
     private Long numOfHaircuts;
+    @Column(unique = true)
     private String phoneNumber;
     private Role role;
 
