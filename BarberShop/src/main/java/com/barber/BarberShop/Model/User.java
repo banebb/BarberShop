@@ -22,6 +22,7 @@ public class User {
     @Column(unique = true)
     private String phoneNumber;
     private Role role;
+    private double avgGrade;
 
     public User() { }
 
@@ -35,6 +36,7 @@ public class User {
         this.numOfHaircuts = numOfHaircuts;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        avgGrade = 0;
     }
 
     public UUID getId() {
@@ -100,6 +102,10 @@ public class User {
     public Role getRole() { return role; }
 
     public void setRole(Role role) { this.role = role; }
+
+    public double getAvgGrade() { return avgGrade; }
+
+    public void setAvgGrade(double avgGrade) { this.avgGrade = avgGrade; }
 
     public enum Role { ADMIN, USER, BARBER }
 }
