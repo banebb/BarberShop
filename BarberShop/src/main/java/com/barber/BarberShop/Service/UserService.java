@@ -26,7 +26,7 @@ public class UserService {
         }
 
         String encryptedPassword = passwordEncryptor.encryptPassword(password);
-        User registeredUser = new User(username, encryptedPassword, email, name, surname, 0L, phoneNumber, User.Role.USER);
+        User registeredUser = new User(username, encryptedPassword, email, name, surname, phoneNumber, User.Role.CUSTOMER);
 
         userRepository.save(registeredUser);
 
@@ -35,18 +35,18 @@ public class UserService {
 
     public Pair<Integer, Boolean> login(LoginDto loginData, HttpSession session) {
         User user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginData.getUsernameOrEmailOrPhoneNumber());
-        if (loginData == null) {
+        if (loginData == null || loginData.getPassword() == null || loginData.getUsernameOrEmailOrPhoneNumber() == null) {
             return Pair.of(0, false); //"Some data is missing"
         }
         if(user == null) {
-            return Pair.of(0, false); //"User with that username or mail or phone number doesn't exist"
+            return Pair.of(1, false); //"User with that username or mail or phone number doesn't exist"
         }
         if(!passwordEncryptor.checkPassword(loginData.getPassword(), user.getPassword())) {
-            return Pair.of(1, false); //"Wrong password"
+            return Pair.of(2, false); //"Wrong password"
         }
 
         session.setAttribute("user", user);
-        return Pair.of(2, true); //"User successfully logged in"
+        return Pair.of(3, true); //"User successfully logged in"
     }
 
     public Pair<Integer, Boolean> logout(HttpSession session) {
