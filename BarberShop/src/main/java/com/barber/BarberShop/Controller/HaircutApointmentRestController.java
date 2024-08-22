@@ -41,7 +41,7 @@ public class HaircutApointmentRestController {
         }
     }
 
-    @PostMapping("/api/cancelApointment")
+    @DeleteMapping("/api/cancelApointment")
     public ResponseEntity<String> cancelApointment(@RequestBody LocalDateTime dateTime, HttpSession session) {
         Pair<HaircutApointment, Integer> apointment = haircutApointmentService.cancelApointment(dateTime, session);
         switch (apointment.getSecond()) {
