@@ -19,6 +19,8 @@ public class User {
     private String name;
     private String surname;
     private Long numOfHaircuts;
+    private Long numOfCancellations;
+    private boolean blocked;
     @Column(unique = true)
     private String phoneNumber;
     private Role role;
@@ -26,14 +28,16 @@ public class User {
 
     public User() { }
 
-    public User(String username, String password, String email, String name, String surname, Long numOfHaircuts, String phoneNumber, Role role) {
+    public User(String username, String password, String email, String name, String surname, String phoneNumber, Role role) {
         id = UUID.randomUUID();
         this.username = username;
         this.password = password;
         this.email = email;
         this.name = name;
         this.surname = surname;
-        this.numOfHaircuts = numOfHaircuts;
+        this.numOfHaircuts = 0L;
+        this.numOfCancellations = 0L;
+        blocked = false;
         this.phoneNumber = phoneNumber;
         this.role = role;
         avgGrade = 0;
@@ -107,5 +111,21 @@ public class User {
 
     public void setAvgGrade(double avgGrade) { this.avgGrade = avgGrade; }
 
-    public enum Role { ADMIN, USER, BARBER }
+    public enum Role { ADMIN, CUSTOMER, BARBER }
+
+    public Long getNumOfCancellations() {
+        return numOfCancellations;
+    }
+
+    public void setNumOfCancellations(Long numOfCancellations) {
+        this.numOfCancellations = numOfCancellations;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
 }
