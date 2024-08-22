@@ -13,7 +13,8 @@ public class HaircutApointment {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    private boolean done;
+
+    private Status status;
 
     public HaircutApointment() { }
 
@@ -21,7 +22,7 @@ public class HaircutApointment {
         id = UUID.randomUUID();
         this.dateTime = dateTime;
         this.user = user;
-        done = false;
+        status = Status.NOT_THE_TIME;
     }
 
     public UUID getId() {
@@ -36,10 +37,6 @@ public class HaircutApointment {
         return user;
     }
 
-    public boolean isDone() {
-        return done;
-    }
-
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
@@ -48,7 +45,15 @@ public class HaircutApointment {
         this.user = user;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public enum Status {
+        DONE, NOT_THE_TIME, CANCELED, DIDNT_SHOW_UP
     }
 }
