@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public Pair<Integer, Boolean> login(LoginDto loginData, HttpSession session) {
-        User user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginData.getUsernameOrEmailOrPhoneNumber());
+        User user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginData.getUsernameOrEmailOrPhoneNumber(), loginData.getUsernameOrEmailOrPhoneNumber(), loginData.getUsernameOrEmailOrPhoneNumber());
         if (loginData == null || loginData.getPassword() == null || loginData.getUsernameOrEmailOrPhoneNumber() == null) {
             return Pair.of(0, false); //"Some data is missing"
         }
