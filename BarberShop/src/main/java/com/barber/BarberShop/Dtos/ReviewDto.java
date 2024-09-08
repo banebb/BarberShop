@@ -6,7 +6,7 @@ public class ReviewDto {
 
     private UUID id;
     private String reviw;
-    private int rating;
+    private double rating;
     private UUID userWhoLeftReview;
     private UUID haircut;
 
@@ -25,7 +25,7 @@ public class ReviewDto {
         return reviw;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
@@ -41,7 +41,7 @@ public class ReviewDto {
         this.reviw = reviw;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

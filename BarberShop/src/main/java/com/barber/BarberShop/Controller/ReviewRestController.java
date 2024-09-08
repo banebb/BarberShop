@@ -27,15 +27,17 @@ public class ReviewRestController {
             case 0:
                 return ResponseEntity.status(401).body("User not logged in");
             case 1:
-                return ResponseEntity.status(404).body("Haircut apointment not found");
+                return ResponseEntity.status(404).body("Haircut appointment not found");
             case 2:
                 return ResponseEntity.ok("Review left successfully");
             case 3:
                 return ResponseEntity.status(400).body("Invalid rating");
             case 4:
                 return ResponseEntity.status(400).body("Invalid data");
+            case 5:
+                return ResponseEntity.status(400).body("U can not leave review on appointment that is in future");
             default:
-                return ResponseEntity.status(500).body("Error oqurred, try again");
+                return ResponseEntity.status(500).body("Error occurred, try again");
         }
     }
 
@@ -53,7 +55,7 @@ public class ReviewRestController {
             case 4:
                 return ResponseEntity.status(400).body("Invalid data");
             default:
-                return ResponseEntity.status(500).body("Error oqurred, try again");
+                return ResponseEntity.status(500).body("Error occurred, try again");
         }
     }
 

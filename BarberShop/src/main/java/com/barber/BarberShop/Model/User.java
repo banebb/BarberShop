@@ -4,10 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
     @Id
     private UUID id;
@@ -20,6 +21,7 @@ public class User {
     private String surname;
     private Long numOfHaircuts;
     private Long numOfCancellations;
+    private Long numOfDidntShowUps;
     private boolean blocked;
     @Column(unique = true)
     private String phoneNumber;
@@ -37,6 +39,7 @@ public class User {
         this.surname = surname;
         this.numOfHaircuts = 0L;
         this.numOfCancellations = 0L;
+        this.numOfDidntShowUps = 0L;
         blocked = false;
         this.phoneNumber = phoneNumber;
         this.role = role;
@@ -127,5 +130,13 @@ public class User {
 
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public Long getNumOfDidntShowUps() {
+        return numOfDidntShowUps;
+    }
+
+    public void setNumOfDidntShowUps(Long numOfDidntShowUps) {
+        this.numOfDidntShowUps = numOfDidntShowUps;
     }
 }

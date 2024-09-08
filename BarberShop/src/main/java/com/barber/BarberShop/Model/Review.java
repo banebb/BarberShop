@@ -3,16 +3,18 @@ package com.barber.BarberShop.Model;
 import com.barber.BarberShop.Service.HaircutApointmentService;
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-public class Review {
+public class Review implements Serializable {
 
     @Id
     private UUID id;
 
     private String reviw;
-    private int rating;
+    private double rating;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User userWhoLeftReview;
@@ -23,7 +25,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(String reviw, int rating, User userWhoLeftReview, HaircutApointment haircut) {
+    public Review(String reviw, double rating, User userWhoLeftReview, HaircutApointment haircut) {
         id = UUID.randomUUID();
         this.reviw = reviw;
         this.rating = rating;
@@ -39,7 +41,7 @@ public class Review {
         return reviw;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
@@ -51,7 +53,7 @@ public class Review {
         this.reviw = reviw;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 

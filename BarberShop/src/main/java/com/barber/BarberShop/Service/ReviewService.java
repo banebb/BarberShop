@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,10 +35,18 @@ public class ReviewService {
         if(data.getRating() < 1 || data.getRating() > 5) return Pair.of(false, 3); // 3 - invalid rating
         HaircutApointment apointment = haircutApointmentRepository.findById(data.getHaircut()).orElse(null);
         if(apointment == null) return Pair.of(false, 1); // 1 - haircut apointment not found
+        if (apointment.getDateTime().isAfter(LocalDateTime.now())) return Pair.of(false, 5);
         Review review = new Review(data.getReviw(), data.getRating(), customer, apointment);
         reviewRepository.save(review);
         User barber = userRepository.findByRole(User.Role.BARBER);
-        barber.setAvgGrade((barber.getAvgGrade() + data.getRating()) / 2);
+        List<Review> reviews = getReviews();
+        if(!reviews.isEmpty()){
+            double sum = 0;
+            for(Review i : reviews){
+                sum += i.getRating();
+            }
+            barber.setAvgGrade(sum / reviews.size());
+        } else barber.setAvgGrade(0);
         userRepository.save(barber);
         return Pair.of(true, 2); // 2 - review left successfully
     }
@@ -50,7 +59,14 @@ public class ReviewService {
         if(review == null) return Pair.of(false, 1); // 1 - review not found
         reviewRepository.delete(review);
         User barber = userRepository.findByRole(User.Role.BARBER);
-        barber.setAvgGrade((barber.getAvgGrade() - review.getRating()) / 2);
+        List<Review> reviews = getReviews();
+        if(!reviews.isEmpty()){
+            double sum = 0;
+            for(Review i : reviews){
+                sum += i.getRating();
+            }
+            barber.setAvgGrade(sum / reviews.size());
+        } else barber.setAvgGrade(0);
         userRepository.save(barber);
         return Pair.of(true, 2); // 2 - review deleted successfully
     }
@@ -65,7 +81,9 @@ public class ReviewService {
 
     public List<Review> getReviewsLeftByUser(UUID userId) {
         if(userId == null) return null;
-        return reviewRepository.findByUserWhoLeftReview(userId);
+        User customer = userRepository.findById(userId).orElse(null);
+        if(customer == null) return null;
+        return reviewRepository.findByUserWhoLeftReview(customer);
     }
 
 }
