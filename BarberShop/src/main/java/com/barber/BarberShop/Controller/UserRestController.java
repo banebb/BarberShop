@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,6 +59,14 @@ public class UserRestController {
         } else {
             return ResponseEntity.badRequest().body("User is not logged in");
         }
+    }
+
+    @GetMapping("/api/isLogged")
+    public ResponseEntity<Boolean> isLogged(HttpSession session) {
+        if(session.getAttribute("user") != null) {
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.badRequest().body(false);
     }
 
 }
