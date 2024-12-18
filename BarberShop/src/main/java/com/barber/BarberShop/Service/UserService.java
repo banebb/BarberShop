@@ -18,7 +18,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public Pair<Integer, Boolean> register(String username, String password, String email, String name, String surname, String phoneNumber) {
-        if(userRepository.findByUsername(username) != null || userRepository.findByEmail(email) != null || userRepository.findByPhoneNumber(phoneNumber) != null) {
+        if(userRepository.findByUsernameOrEmailOrPhoneNumber(username, email, phoneNumber) != null) {
             return Pair.of(0, false); //"User already exists"
         }
         if(username == null || password == null || email == null || name == null || surname == null || phoneNumber == null) {
