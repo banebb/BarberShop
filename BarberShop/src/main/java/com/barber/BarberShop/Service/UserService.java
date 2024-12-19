@@ -18,11 +18,16 @@ public class UserService {
     private UserRepository userRepository;
 
     public Pair<Integer, Boolean> register(String username, String password, String email, String name, String surname, String phoneNumber) {
-        if(userRepository.findByUsernameOrEmailOrPhoneNumber(username, email, phoneNumber) != null) {
-            return Pair.of(0, false); //"User already exists"
-        }
+
         if(username == null || password == null || email == null || name == null || surname == null || phoneNumber == null) {
             return Pair.of(1, false); //"All fields must be filled"
+        }
+        if(username.isEmpty() || password.isEmpty() || email.isEmpty() || phoneNumber.isEmpty() || name.isEmpty() || surname.isEmpty()) {
+            return Pair.of(1, false);
+        }
+
+        if(userRepository.findByUsernameOrEmailOrPhoneNumber(username, email, phoneNumber) != null) {
+            return Pair.of(0, false); //"User already exists"
         }
 
         String encryptedPassword = passwordEncryptor.encryptPassword(password);
