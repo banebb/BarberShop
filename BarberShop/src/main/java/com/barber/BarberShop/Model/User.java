@@ -1,37 +1,49 @@
 package com.barber.BarberShop.Model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
     @Id
     private UUID id;
-
+    @Column(unique = true)
     private String username;
     private String password;
+    @Column(unique = true)
     private String email;
     private String name;
     private String surname;
     private Long numOfHaircuts;
+    private Long numOfCancellations;
+    private Long numOfDidntShowUps;
+    private boolean blocked;
+    @Column(unique = true)
     private String phoneNumber;
     private Role role;
+    private double avgGrade;
 
     public User() { }
 
-    public User(String username, String password, String email, String name, String surname, Long numOfHaircuts, String phoneNumber, Role role) {
+    public User(String username, String password, String email, String name, String surname, String phoneNumber, Role role) {
         id = UUID.randomUUID();
         this.username = username;
         this.password = password;
         this.email = email;
         this.name = name;
         this.surname = surname;
-        this.numOfHaircuts = numOfHaircuts;
+        this.numOfHaircuts = 0L;
+        this.numOfCancellations = 0L;
+        this.numOfDidntShowUps = 0L;
+        blocked = false;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        avgGrade = 0;
     }
 
     public UUID getId() {
@@ -98,5 +110,33 @@ public class User {
 
     public void setRole(Role role) { this.role = role; }
 
-    public enum Role { ADMIN, USER, BARBER }
+    public double getAvgGrade() { return avgGrade; }
+
+    public void setAvgGrade(double avgGrade) { this.avgGrade = avgGrade; }
+
+    public enum Role { ADMIN, CUSTOMER, BARBER }
+
+    public Long getNumOfCancellations() {
+        return numOfCancellations;
+    }
+
+    public void setNumOfCancellations(Long numOfCancellations) {
+        this.numOfCancellations = numOfCancellations;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
+    public Long getNumOfDidntShowUps() {
+        return numOfDidntShowUps;
+    }
+
+    public void setNumOfDidntShowUps(Long numOfDidntShowUps) {
+        this.numOfDidntShowUps = numOfDidntShowUps;
+    }
 }
