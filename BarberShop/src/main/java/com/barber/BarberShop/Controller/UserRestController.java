@@ -69,4 +69,13 @@ public class UserRestController {
         return ResponseEntity.badRequest().body(false);
     }
 
+    @GetMapping
+    public ResponseEntity<String> getName(HttpSession session) {
+        if (userService.getName(session).getSecond()){
+            return ResponseEntity.ok(userService.getName(session).getFirst());
+        } else {
+            return ResponseEntity.badRequest().body(userService.getName(session).getFirst());
+        }
+    }
+
 }

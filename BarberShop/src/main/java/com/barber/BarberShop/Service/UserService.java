@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -39,10 +41,16 @@ public class UserService {
     }
 
     public Pair<Integer, Boolean> login(LoginDto loginData, HttpSession session) {
-        User user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginData.getUsernameOrEmailOrPhoneNumber(), loginData.getUsernameOrEmailOrPhoneNumber(), loginData.getUsernameOrEmailOrPhoneNumber());
+
         if (loginData == null || loginData.getPassword() == null || loginData.getUsernameOrEmailOrPhoneNumber() == null) {
             return Pair.of(0, false); //"Some data is missing"
         }
+        if(loginData.getPassword().isEmpty() || loginData.getUsernameOrEmailOrPhoneNumber().isEmpty()) {
+            return Pair.of(0, false);
+        }
+
+        User user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginData.getUsernameOrEmailOrPhoneNumber(), loginData.getUsernameOrEmailOrPhoneNumber(), loginData.getUsernameOrEmailOrPhoneNumber());
+
         if(user == null) {
             return Pair.of(1, false); //"User with that username or mail or phone number doesn't exist"
         }
@@ -60,6 +68,12 @@ public class UserService {
         }
         session.invalidate();
         return Pair.of(1, true) ; //"User successfully logged out"
+    }
+
+    public Pair<String, Boolean> getName(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if(user == null) return Pair.of("User has to be signed in first", false);
+        return Pair.of(user.getName(), true);
     }
 
 }
