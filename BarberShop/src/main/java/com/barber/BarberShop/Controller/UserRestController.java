@@ -6,6 +6,7 @@ import com.barber.BarberShop.Service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,6 +76,14 @@ public class UserRestController {
         } else {
             return ResponseEntity.badRequest().body(userService.getName(session).getFirst());
         }
+    }
+
+    @GetMapping("/api/isBarber")
+    public ResponseEntity<Boolean> isBarber(HttpSession session) {
+        if (userService.isBarber(session).getSecond() && userService.isBarber(session).getFirst()) {
+            return ResponseEntity.ok(true);
+        }
+        return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
     }
 
 }

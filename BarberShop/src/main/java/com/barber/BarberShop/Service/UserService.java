@@ -76,4 +76,13 @@ public class UserService {
         return Pair.of(user.getName(), true);
     }
 
+    public Pair<Boolean, Boolean> isBarber(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if(user == null) {
+            return Pair.of(false, false);
+        }
+        if (user.getRole() == User.Role.BARBER) { return Pair.of(true, true); }
+        return Pair.of(false, true); //user is logged in  but it is either customer or admin
+    }
+
 }
